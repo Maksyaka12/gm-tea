@@ -8,6 +8,32 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script>
+  async function sendGM() {
+    if (typeof window.ethereum === 'undefined') {
+      alert("Please install MetaMask");
+      return;
+    }
+
+    const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+    const tx = {
+      from: account,
+      to: "0x000000000000000000000000000000000000dEaD", // Просто приклад
+      value: "0x0",
+      data: "0x476d" // "Gm" у hex
+    };
+
+    try {
+      await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [tx]
+      });
+      alert("GM sent!");
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
+  }
+</script>
   </body>
 </html>
