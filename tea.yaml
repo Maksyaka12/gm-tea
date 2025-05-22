@@ -1,4 +1,11 @@
-name: gm-tea
-version: 0.1.0
-description: A simple OSS project to send GM transactions on Tea Testnet.
-repository: https://github.com/maksyaka12/gm-tea
+project:
+  name: gm-tea
+  description: A minimal Tea Testnet app to send on-chain GM.
+  website: https://oss-tea.vercel.app/
+  repository: https://github.com/Maksyaka12/gm-tea
+  type: dapp
+  tags:
+    - gm
+    - tea
+    - vite
+    - web3
