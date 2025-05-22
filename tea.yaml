@@ -1,0 +1,4 @@
+name: gm-tea
+version: 0.1.0
+description: A simple OSS project to send GM transactions on Tea Testnet.
+repository: https://github.com/maksyaka12/gm-tea
