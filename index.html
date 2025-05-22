@@ -1,39 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GM TEA</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script>
-  async function sendGM() {
-    if (typeof window.ethereum === 'undefined') {
-      alert("Please install MetaMask");
-      return;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GM TEA ☕</title>
+</head>
+<body style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;flex-direction:column">
+  <h1>GM TEA ☕</h1>
+  <button id="gm" style="padding: 1em 2em; font-size: 1.2em;">GM</button>
+
+  <script>
+    const contractAddress = "0xEF7E119Fe7c0d2c0252a2e47E0c7FBc3FE1D4a"; // ончейн GM контракт
+    const abi = [{"inputs":[],"name":"gm","outputs":[],"stateMutability":"nonpayable","type":"function"}];
+
+    async function sendGM() {
+      if (!window.ethereum) return alert("Please install MetaMask");
+
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      const gmContract = new ethers.Contract(contractAddress, abi, signer);
+
+      try {
+        const tx = await gmContract.gm();
+        alert("GM sent! Tx: " + tx.hash);
+      } catch (e) {
+        alert("Failed: " + e.message);
+      }
     }
 
-    const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    document.getElementById("gm").addEventListener("click", sendGM);
+  </script>
 
-    const tx = {
-      from: account,
-      to: "0x000000000000000000000000000000000000dEaD", // Просто приклад
-      value: "0x0",
-      data: "0x476d" // "Gm" у hex
-    };
-
-    try {
-      await window.ethereum.request({
-        method: 'eth_sendTransaction',
-        params: [tx]
-      });
-      alert("GM sent!");
-    } catch (err) {
-      alert("Error: " + err.message);
-    }
-  }
-</script>
-  </body>
+  <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+</body>
 </html>
